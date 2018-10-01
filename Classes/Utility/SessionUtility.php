@@ -19,7 +19,11 @@ class SessionUtility
     {
         $typoScriptFrontend = self::getTyposcriptFrontendController();
         $typoScriptFrontend->initFEuser();
-        $typoScriptFrontend->fe_user->setAndSaveSessionData('tx_powermail_cond', $array);
+	    $sessionData = $typoScriptFrontend->fe_user->getSessionData('tx_powermail_cond');
+	    $sessionData = $sessionData ? $sessionData : array();
+	    $formUid = $array['mail']['form'];
+	    $sessionData[$formUid] = $array;
+	    $typoScriptFrontend->fe_user->setAndSaveSessionData('tx_powermail_cond', $sessionData);
     }
 
     /**
